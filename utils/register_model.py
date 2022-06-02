@@ -42,9 +42,11 @@ def train_and_log_model(data_path, params):
         rf.fit(X_train, y_train)
 
         # evaluate model on the validation and test sets
-        valid_rmse = mean_squared_error(y_valid, rf.predict(X_valid), squared=False)
+        valid_rmse = mean_squared_error(
+            y_valid, rf.predict(X_valid), squared=False)
         mlflow.log_metric("valid_rmse", valid_rmse)
-        test_rmse = mean_squared_error(y_test, rf.predict(X_test), squared=False)
+        test_rmse = mean_squared_error(
+            y_test, rf.predict(X_test), squared=False)
         mlflow.log_metric("test_rmse", test_rmse)
 
 
@@ -65,10 +67,16 @@ def run(data_path, log_top):
 
     # select the model with the lowest test RMSE
     experiment = client.get_experiment_by_name(EXPERIMENT_NAME)
-    # best_run = client.search_runs( ...  )[0]
+    best_run = client.search_runs(
+        experiment_ids=experiment.experiment_id,
+        run_view_type=ViewType.ACTIVE_ONLY,
+        order_by=["metrics.test_rmse ASC"]
+    )[0]
 
     # register the best model
-    # mlflow.register_model( ... )
+    best_run_id = best_run.info.run_id
+    best_model_uri = f"runs:/{best_run_id}/model"
+    mlflow.register_model(model_uri=best_model_uri, name=EXPERIMENT_NAME)
 
 
 if __name__ == '__main__':
