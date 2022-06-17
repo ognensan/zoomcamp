@@ -59,6 +59,15 @@ Based on the [mlops-zoomcamp](https://github.com/DataTalksClub/mlops-zoomcamp) c
 4. Add key to agent:  `ssh-add ~/.ssh/KEYNAME`
 5. Check which keys are added to agent: `ssh-add -l -E sha256`
 6. If you would like to have the ssh-agent start automatically, follow this: [start ssh agent on login](https://stackoverflow.com/questions/18880024/start-ssh-agent-on-login)
+```
+# To start on login
+if [ -z "$SSH_AUTH_SOCK" ]; then
+    eval `$(ssh-agent -s)`
+    ssh-add .ssh/KEYNAME
+fi
+# To stop on logout
+trap 'test -n "$SSH_AUTH_SOCK" && eval `/usr/bin/ssh-agent -k`' 0
+```
 7. Get public key to copy paste on GitHub: ` cat ~/.ssh/KEYNAME.pub`
 8. Go to *Settings->SSH and GPG keys* on GitHub (Web), click on *New SSH key* and paste the public key
 9. Go to your repo on GitHub and Clone it using SSH
@@ -68,6 +77,7 @@ Based on the [mlops-zoomcamp](https://github.com/DataTalksClub/mlops-zoomcamp) c
 13. View git config settings: `git config -l`
 14. If you forked and need to add the upstream repo: `git remote add upstream https://github.com/DataTalksClub/mlops-zoomcamp.git`
 15. To see all your remotes: `git remote -v`
+16. If you 
 
 ## Miniconda Setup
 1. Get: `wget https://repo.anaconda.com/miniconda/Miniconda3-py39_4.12.0-Linux-x86_64.sh`
