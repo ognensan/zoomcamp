@@ -35,6 +35,7 @@ Based on the [mlops-zoomcamp](https://github.com/DataTalksClub/mlops-zoomcamp) c
 3. Add colour to bash prompt: `nano bashrc` and then uncomment `force_color_prompt=yes`
 4. Check memory usage: `vmstat`
 5. Check data usage: `df`
+6. If you need to add a second key to access the EC2 instance (*from another machine, like a mobile device*) add the second RSA public key in the .ssh/authorized_keys file and reboot the EC2 instance
 
 ## Install Docker
 1. Install Docker: `sudo apt install docker.io`
