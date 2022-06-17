@@ -25,9 +25,9 @@ Based on the [mlops-zoomcamp](https://github.com/DataTalksClub/mlops-zoomcamp) c
 2. Install Jupyter extension on remote
 3. Set full path to SSH executable in Settings->Remote.SSH: Path. Run `which ssh` to get the path. I had to do this on a 32bit Windows machine.
 4. Configure port forwarding in VS Code and forward following ports:
-  1. 8888 for Jupyter
-  2. 5000 for MlFlow
-  3. 4200 for Prefect
+    1. 8888 for Jupyter
+    2. 5000 for MLflow
+    3. 4200 for Prefect
 
 # AWS Terminal
 1. Update apt repos: `sudo apt update`
@@ -58,7 +58,7 @@ Based on the [mlops-zoomcamp](https://github.com/DataTalksClub/mlops-zoomcamp) c
 3. Start SSH Agent: `eval "$(ssh-agent -s)"`
 4. Add key to agent:  `ssh-add ~/.ssh/KEYNAME`
 5. Check which keys are added to agent: `ssh-add -l -E sha256`
-6. If you would like to have the ssh-agent start automatically, follow this: [start ssh agent on login](https://stackoverflow.com/questions/18880024/start-ssh-agent-on-login)
+6. If you would like to have the ssh-agent start automatically, follow this: [start ssh agent on login](https://stackoverflow.com/questions/18880024/start-ssh-agent-on-login) or add the code below in .bashrc
 ```
 # To start on login
 if [ -z "$SSH_AUTH_SOCK" ]; then
@@ -77,7 +77,6 @@ trap 'test -n "$SSH_AUTH_SOCK" && eval `/usr/bin/ssh-agent -k`' 0
 13. View git config settings: `git config -l`
 14. If you forked and need to add the upstream repo: `git remote add upstream https://github.com/DataTalksClub/mlops-zoomcamp.git`
 15. To see all your remotes: `git remote -v`
-16. If you 
 
 ## Miniconda Setup
 1. Get: `wget https://repo.anaconda.com/miniconda/Miniconda3-py39_4.12.0-Linux-x86_64.sh`
@@ -94,7 +93,7 @@ trap 'test -n "$SSH_AUTH_SOCK" && eval `/usr/bin/ssh-agent -k`' 0
 4. Install needed packages: `pip install -r requirements.txt` They will be in different folders, so either move to the needed folder or provide the path to it.
 5. `pip install boto3`
 
-## MlFlow
+## MLflow
 1. Start UI: `mlflow ui --backend-store-uri sqlite:///mlflow.db`
 2. Start server: `mlflow server --backend-store-uri sqlite:///mlflow.db --default-artifact-root ./mlruns`
 4. UI runs on port 5000: http://localhost:5000/
@@ -104,14 +103,3 @@ trap 'test -n "$SSH_AUTH_SOCK" && eval `/usr/bin/ssh-agent -k`' 0
 2. Might need to unset it: `prefect config unset PREFECT_ORION_UI_API_URL`
 3. Start prefect: `prefect orion start --host 0.0.0.0`
 4. UI runs on port 4200: http://localhost:4200
-
-
-
-
-
-
-
-
-
-
-
