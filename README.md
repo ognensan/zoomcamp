@@ -8,6 +8,9 @@ Based on the [mlops-zoomcamp](https://github.com/DataTalksClub/mlops-zoomcamp) c
 4. Create a key pair and dowload it on your machine
 5. Go to the security group for the instance, edit inbound rules and add a rule to open SSH
 6. Open TCP and UDP port 4200 for prefect as well as HTTP and HTTPS
+7. Create S3 bucket which needs a unique name
+8. Create an RDS PostgreSQL database within the free tier options
+9. Go to the security group of the database, edit inbound rules and add a rule for postgres with the EC2 instance security group
 
 # Local Setup
 1. Dowload key from AWS and move it to your ~/.ssh folder
@@ -36,6 +39,9 @@ Based on the [mlops-zoomcamp](https://github.com/DataTalksClub/mlops-zoomcamp) c
 4. Check memory usage: `vmstat`
 5. Check data usage: `df`
 6. If you need to add a second key to access the EC2 instance (*from another machine, like a mobile device*) add the second RSA public key in the .ssh/authorized_keys file and reboot the EC2 instance
+7. Install aws cli: `sudo apt install awscli`
+8. Configure aws: `aws configure` and enter your aws user credentials, access key id and secret access key
+9. List S3 buckets: `aws s3 ls`
 
 ## Install Docker
 1. Install Docker: `sudo apt install docker.io`
@@ -91,11 +97,20 @@ trap 'test -n "$SSH_AUTH_SOCK" && eval `/usr/bin/ssh-agent -k`' 0
 2. I had to separately install mlflow so: `conda install mlflow`
 3. Similarly for xgboost: `conda install xgboost`
 4. Install needed packages: `pip install -r requirements.txt` They will be in different folders, so either move to the needed folder or provide the path to it.
-5. `pip install boto3`
+5. For access to aws resources: `pip install boto3`
+6. To be able to run MLflow with s3 buckets and rds postgres install: `conda install psycopg2`
 
 ## MLflow
 1. Start UI: `mlflow ui --backend-store-uri sqlite:///mlflow.db`
 2. Start server: `mlflow server --backend-store-uri sqlite:///mlflow.db --default-artifact-root ./mlruns`
+3. Start server with s3 bucket and RDS PostgreSQL database:
+```
+mlflow server \
+        -h 0.0.0.0 \
+        -p 5000 \
+        --backend-store-uri postgresql://<db_user>:<db_password>@<db_endpoint>:5432/<db_name> \
+        --default-artifact-root s3://<s3 bucket name>
+```
 4. UI runs on port 5000: http://localhost:5000/
 
 ## Setup Prefect
